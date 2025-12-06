@@ -1,0 +1,5 @@
+{
+  "name": "Responsive Landing Page",
+  "description": "A modern, fully responsive landing page built with React and Tailwind CSS. It features a navigation bar, hero section, features showcase, and a footer, all adjusting seamlessly across devices.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aura Landing Page - Basic HTML</title>
+    <style>
+        /* General Setup */
+        :root {
+            --bg-slate-900: #0f172a;
+            --bg-slate-800: #1e293b;
+            --border-slate-800: #1e293b;
+            --border-slate-700: #334155;
+            --text-white: #ffffff;
+            --text-slate-200: #e2e8f0;
+            --text-slate-300: #cbd5e1;
+            --text-slate-400: #94a3b8;
+            --text-slate-500: #64748b;
+            --purple-400: #c084fc;
+            --pink-500: #ec4899;
+            --purple-500: #a855f7;
+            --purple-600: #9333ea;
+            --purple-700: #7e22ce;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-slate-900);
+            color: var(--text-slate-200);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        /* Visually hide content */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Utility Container */
+        .container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+        }
+        @media (min-width: 1024px) {
+            .container { padding-left: 2rem; padding-right: 2rem; }
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            border-bottom: 1px solid var(--border-slate-800);
+        }
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 5rem;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-image: linear-gradient(to right, var(--purple-400), var(--pink-500));
+            text-decoration: none;
+        }
+        .nav-links {
+            display: none;
+            gap: 1rem;
+        }
+        .nav-links a {
+            color: var(--text-slate-300);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: var(--bg-slate-800);
+            color: var(--text-white);
+        }
+        .mobile-menu-button {
+            display: block;
+            background-color: transparent;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--text-slate-400);
+            cursor: pointer;
+        }
+        .mobile-menu-button:hover {
+            background-color: var(--bg-slate-800);
+            color: var(--text-white);
+        }
+        .mobile-menu-button svg {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+        .close-icon {
+            display: none;
+        }
+        .mobile-menu {
+            display: none;
+            padding: 0.5rem 0.5rem 0.75rem;
+        }
+        .mobile-menu.active {
+            display: block;
+        }
+        .mobile-menu a {
+            display: block;
+            color: var(--text-slate-300);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        .mobile-menu a:hover {
+            background-color: var(--bg-slate-800);
+            color: var(--text-white);
+        }
+
+        /* Hero Section */
+        #home {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 5rem;
+            box-sizing: border-box;
+        }
+        #home::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), rgba(255, 255, 255, 0));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 1rem;
+        }
+        .hero-content h1 {
+            font-size: 2.25rem;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin: 0 0 1rem 0;
+        }
+        .hero-content h1 span:first-child {
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-image: linear-gradient(to right, var(--purple-400), var(--pink-500));
+        }
+        .hero-content p {
+            max-width: 42rem;
+            margin: 1.5rem auto 0;
+            font-size: 1.125rem;
+            color: var(--text-slate-400);
+        }
+        .hero-button {
+            display: inline-block;
+            margin-top: 2.5rem;
+            background-color: var(--purple-600);
+            color: var(--text-white);
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.2), 0 4px 6px -2px rgba(168, 85, 247, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .hero-button:hover {
+            background-color: var(--purple-700);
+            transform: scale(1.05);
+        }
+
+        /* Features Section */
+        #features {
+            padding: 5rem 0;
+        }
+        .features-header {
+            text-align: center;
+        }
+        .features-header h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin: 0;
+        }
+        .features-header p {
+            margin-top: 1rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.125rem;
+            color: var(--text-slate-400);
+        }
+        .features-grid {
+            margin-top: 4rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .feature-card {
+            background-color: rgba(30, 41, 59, 0.5);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-slate-700);
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.1);
+        }
+        .feature-icon {
+            margin-bottom: 1rem;
+            color: var(--purple-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 3rem;
+            width: 3rem;
+            border-radius: 0.375rem;
+            background-color: rgba(168, 85, 247, 0.1);
+        }
+        .feature-icon svg {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-slate-200);
+        }
+        .feature-card p {
+            color: var(--text-slate-400);
+            margin: 0;
+        }
+
+        /* Footer */
+        #contact {
+            background-color: var(--bg-slate-900);
+            border-top: 1px solid var(--border-slate-800);
+        }
+        .footer-content {
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .social-links a {
+            color: var(--text-slate-400);
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: var(--text-slate-300);
+        }
+        .social-links svg {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-slate-500);
+        }
+
+        /* Responsive Breakpoints */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .mobile-menu-button { display: none; }
+            .hero-content h1 { font-size: 3.75rem; }
+            .hero-content p { font-size: 1.25rem; }
+            #features { padding: 8rem 0; }
+            .features-header h2 { font-size: 2.75rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#home" class="nav-brand">Aura</a>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <!-- Hamburger Icon -->
+                    <svg class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <!-- Close Icon -->
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#features" class="mobile-nav-link">Features</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home">
+            <div class="hero-content animate-fade-in">
+                <h1>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Design the Future,</span>
+                    <br />
+                    <span style="display: block; margin-top: 0.5rem;">Today.</span>
+                </h1>
+                <p>
+                    Aura is the ultimate toolkit for creating beautiful, responsive web experiences with unparalleled speed and efficiency.
+                </p>
+                <a href="#features" class="hero-button">Get Started</a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features">
+            <div class="container">
+                <div class="features-header">
+                    <h2>Everything You Need, All in One Place</h2>
+                    <p>Discover the core features that make our platform the best choice for your next project.</p>
+                </div>
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3>Fully Responsive</h3>
+                        <p>Our designs adapt perfectly to any screen size, from mobile phones to widescreen desktops.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3>Lightning Fast</h3>
+                        <p>Optimized for performance, ensuring your website loads quickly and runs smoothly for all users.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                            </svg>
+                        </div>
+                        <h3>Intuitive Design</h3>
+                        <p>Clean, modern, and user-friendly interfaces that are a pleasure to navigate and interact with.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">
+                    <span class="sr-only">Facebook</span>
+                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <span class="sr-only">Twitter</span>
+                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                    </svg>
+                </a>
+            </div>
+            <p class="copyright">&copy; 2025 Aura Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = menuButton.querySelector('.hamburger-icon');
+            const closeIcon = menuButton.querySelector('.close-icon');
+            const navLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
+
+            const toggleMenu = () => {
+                const isOpen = mobileMenu.classList.toggle('active');
+                menuButton.setAttribute('aria-expanded', String(isOpen));
+                hamburgerIcon.style.display = isOpen ? 'none' : 'block';
+                closeIcon.style.display = isOpen ? 'block' : 'none';
+            };
+
+            menuButton.addEventListener('click', toggleMenu);
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            // Update copyright year
+            const copyright = document.querySelector('.copyright');
+            if(copyright) {
+                copyright.innerHTML = `&copy; ${new Date().getFullYear()} Aura Inc. All rights reserved.`;
+            }
+        });
+    </script>
+</body>
+</html>
